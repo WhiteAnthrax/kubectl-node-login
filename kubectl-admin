@@ -2,7 +2,7 @@
 set -euo pipefail
 
 if [[ "${1:-}" == "--help" || $# -lt 1 ]]; then
-  echo "Usage: kubectl kdebug-node <NODE_NAME> [IMAGE] [PROFILE] [NAMESPACE]"
+  echo "Usage: kubectl admin <NODE_NAME> [IMAGE] [PROFILE] [NAMESPACE]"
   exit 1
 fi
 
@@ -24,7 +24,7 @@ echo "    Namespace: $NAMESPACE"
 [[ -n "$PROFILE" ]] && echo "    Profile: $PROFILE"
 
 # Create log directory and file
-LOGDIR="${HOME}/logs/kdebug"
+LOGDIR="${HOME}/logs/kubectl-admin"
 mkdir -p "$LOGDIR"
 LOGFILE="$LOGDIR/debug-${NODE}-$(date +%Y%m%d-%H%M%S).log"
 

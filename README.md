@@ -11,7 +11,7 @@ It launches a privileged debug pod on a specified node using `kubectl debug`, ch
 - 🔧 Launches a temporary debug pod with `chroot /host`
 - 🖥 Automatically attaches to an interactive shell
 - 🧼 Cleans up the pod after exit
-- 📝 Saves session log to `~/logs/kdebug/`
+- 📝 Saves session log to `~/logs/kubectl-admin/`
 - 💡 Optional support for specifying image, profile, and namespace
 
 ---
@@ -99,11 +99,11 @@ error: unknown profile: sysadmin
 
 ## Log Storage
 
-- Logs are saved under `~/logs/kdebug/`
+- Logs are saved under `~/logs/kubectl-admin/`
 - Filenames include the node name and timestamp
 - Example:
   ```
-  ~/logs/kdebug/debug-node-01-20250528-145300.log
+  ~/logs/kubectl-admin/debug-node-01-20250528-145300.log
   ```
 
 ---
