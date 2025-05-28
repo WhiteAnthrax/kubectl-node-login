@@ -1,0 +1,23 @@
+apiVersion: krew.googlecontainertools.github.com/v1alpha2
+kind: Plugin
+metadata:
+  name: admin
+spec:
+  version: v0.1.0
+  homepage: https://github.com/WhiteAnthrax/kubectl-admin
+  shortDescription: "Launch a debug pod on a node and auto-cleanup after exit"
+  description: |
+    Starts a privileged debug pod on a specified node using `kubectl debug`,
+    chroots into the host, saves the debug session log under ~/logs/kdebug/,
+    and deletes the debug pod automatically after exiting.
+    Automatically selects a supported --profile based on kubectl version.
+
+  platforms:
+  - selector:
+      matchExpressions:
+      - key: os
+        operator: In
+        values: ["linux"]
+    uri: https://github.com/WhiteAnthrax/kubectl-admin/releases/download/v0.1.0/kubectl-admin.tar.gz
+    sha256: 55ffa495c9bae81492a7466d4436b9650249417fbb5a11a4f42b1a77f18fe531
+    bin: kubectl-admin

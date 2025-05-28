@@ -1,0 +1,49 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ "${1:-}" == "--help" || $# -lt 1 ]]; then
+  echo "Usage: kubectl kdebug-node <NODE_NAME> [IMAGE] [PROFILE] [NAMESPACE]"
+  exit 1
+fi
+
+# check if script(1) exists
+if ! command -v script >/dev/null 2>&1; then
+  echo "❌ This tool requires the 'script' command (from util-linux)."
+  echo "   Please install it. On RHEL/Rocky: sudo dnf install util-linux"
+  exit 1
+fi
+
+NODE="$1"
+IMAGE="${2:-rockylinux:9}"
+PROFILE="${3:-}"
+NAMESPACE="${4:-default}"
+
+echo "🚀 Launching debug pod on node: $NODE"
+echo "    Image: $IMAGE"
+echo "    Namespace: $NAMESPACE"
+[[ -n "$PROFILE" ]] && echo "    Profile: $PROFILE"
+
+# Create log directory and file
+LOGDIR="${HOME}/logs/kdebug"
+mkdir -p "$LOGDIR"
+LOGFILE="$LOGDIR/debug-${NODE}-$(date +%Y%m%d-%H%M%S).log"
+
+DEBUG_ARGS=(debug node/"$NODE" -n "$NAMESPACE" -it --image="$IMAGE")
+[[ -n "$PROFILE" ]] && DEBUG_ARGS+=(--profile="$PROFILE")
+DEBUG_ARGS+=(-- chroot /host)
+
+# Run and log session with TTY
+script -q -c "kubectl ${DEBUG_ARGS[*]}" "$LOGFILE"
+
+# Extract pod name from log
+POD=$(grep -oE "node-debugger-$NODE-[a-z0-9]{5}" "$LOGFILE" | tail -1)
+
+if [[ -n "$POD" ]]; then
+  echo "🧹 Deleting debug pod: $POD"
+  kubectl delete pod "$POD" -n "$NAMESPACE"
+else
+  echo "❗ Could not determine pod name. Manual cleanup may be needed."
+  echo "    Try: kubectl get pod -n $NAMESPACE | grep node-debugger-$NODE"
+fi
+
+echo "📄 Debug session log saved to: $LOGFILE"
