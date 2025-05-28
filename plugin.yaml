@@ -1,14 +1,14 @@
 apiVersion: krew.googlecontainertools.github.com/v1alpha2
 kind: Plugin
 metadata:
-  name: admin
+  name: node_login
 spec:
   version: v0.1.0
-  homepage: https://github.com/WhiteAnthrax/kubectl-admin
+  homepage: https://github.com/WhiteAnthrax/kubectl-node_login
   shortDescription: "Launch a debug pod on a node and auto-cleanup after exit"
   description: |
     Starts a privileged debug pod on a specified node using `kubectl debug`,
-    chroots into the host, saves the debug session log under ~/logs/kubectl-admin/,
+    chroots into the host, saves the debug session log under ~/logs/kubectl-node_login/,
     and deletes the debug pod automatically after exiting.
     Automatically selects a supported --profile based on kubectl version.
 
@@ -18,6 +18,6 @@ spec:
       - key: os
         operator: In
         values: ["linux"]
-    uri: https://github.com/WhiteAnthrax/kubectl-admin/releases/download/v1.2/kubectl-admin.tar.gz
-    sha256: 743ac27617a3b18f065f97889ddc518e3ceb99f99cb67d6f869259e51d9ab29a
-    bin: kubectl-admin
+    uri: https://github.com/WhiteAnthrax/kubectl-node_login/releases/download/v1.3/kubectl-node_login.tar.gz
+    sha256: 2ffb8ac4f44803bb5ce61308244fdbc4ad9e700e9c16face7ddb9147b9fb7590
+    bin: kubectl-node_login

@@ -1,6 +1,6 @@
-# kubectl-admin
+# kubctl-node_login
 
-`kubectl-admin` is a [Krew](https://krew.sigs.k8s.io/) plugin that simplifies node-level debugging in Kubernetes.
+`kubctl-node_login` is a [Krew](https://krew.sigs.k8s.io/) plugin that simplifies node-level debugging in Kubernetes.
 
 It launches a privileged debug pod on a specified node using `kubectl debug`, chroots into the host filesystem, automatically cleans up the pod after exit, and saves the debug session log for auditing.
 
@@ -11,7 +11,7 @@ It launches a privileged debug pod on a specified node using `kubectl debug`, ch
 - 🔧 Launches a temporary debug pod with `chroot /host`
 - 🖥 Automatically attaches to an interactive shell
 - 🧼 Cleans up the pod after exit
-- 📝 Saves session log to `~/logs/kubectl-admin/`
+- 📝 Saves session log to `~/logs/kubctl-node_login/`
 - 💡 Optional support for specifying image, profile, and namespace
 
 ---
@@ -40,7 +40,7 @@ sudo apt install util-linux
 Install via Krew:
 
 ```bash
-kubectl krew install admin
+kubectl krew install node_login 
 ```
 
 > Make sure Krew is [installed](https://krew.sigs.k8s.io/docs/user-guide/setup/) first.
@@ -50,13 +50,13 @@ kubectl krew install admin
 ## Usage
 
 ```bash
-kubectl admin <NODE_NAME> [IMAGE] [PROFILE] [NAMESPACE]
+kubectl node_login <NODE_NAME> [IMAGE] [PROFILE] [NAMESPACE]
 ```
 
 ### Example:
 
 ```bash
-kubectl admin node-01 rockylinux:9 sysadmin default
+kubectl node_login node-01 rockylinux:9 sysadmin default
 ```
 
 This will:
@@ -99,11 +99,11 @@ error: unknown profile: sysadmin
 
 ## Log Storage
 
-- Logs are saved under `~/logs/kubectl-admin/`
+- Logs are saved under `~/logs/kubctl-node_login/`
 - Filenames include the node name and timestamp
 - Example:
   ```
-  ~/logs/kubectl-admin/debug-node-01-20250528-145300.log
+  ~/logs/kubctl-node_login/debug-node-01-20250528-145300.log
   ```
 
 ---
